@@ -2,7 +2,7 @@ import pool from '../db.js';
 
 export const getStudent = async (_req, res) => {
     try {
-        const result = await pool.query("SELECT id, name, skill FROM student");
+        const result = await pool.query("SELECT id, name, skill FROM students");
         res.json(result.rows)
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -12,7 +12,7 @@ export const getStudent = async (_req, res) => {
 export const getStudentId = async (req, res) => {
     try {
         const {id} = req.params;
-        const result = await pool.query("SELECT name, skill FROM student WHERE id = $1",
+        const result = await pool.query("SELECT name, skill FROM students WHERE id = $1",
             [id]
         );
 
@@ -29,7 +29,7 @@ export const getStudentId = async (req, res) => {
 export const createStudent = async (req, res) => {
     try {
         const {name, skill} = req.body;
-        const result = await pool.query("INSERT INTO student (name, skill) VALUES ($1, $2) RETURNING *",
+        const result = await pool.query("INSERT INTO students (name, skill) VALUES ($1, $2) RETURNING *",
             [name, skill]
         );
 
@@ -46,7 +46,7 @@ export const updateStudent = async (req, res) => {
     try {
         const {id} = req.params
         const {name, skill} = req.body;
-        const result = await pool.query("UPDATE student SET name = $1, skill = $2 WHERE id = $3 RETURNING *",
+        const result = await pool.query("UPDATE students SET name = $1, skill = $2 WHERE id = $3 RETURNING *",
             [name, skill, id]
         );
 
@@ -66,7 +66,7 @@ export const updateStudent = async (req, res) => {
 export const deleteStudent = async (req, res) => {
     try {
         const {id} = req.params;
-        const result = await pool.query("DELETE FROM student WHERE id = $1 RETURNING *",
+        const result = await pool.query("DELETE FROM students WHERE id = $1 RETURNING *",
             [id]
         );
 
